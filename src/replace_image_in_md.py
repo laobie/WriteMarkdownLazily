@@ -97,13 +97,16 @@ def replace_img(source_md, target_md, conn):
 
     for image in image_list:
         source_img = os.path.join(os.path.split(source_md)[0], image[1])
+        if not os.path.exists(source_img):
+            continue
+
         db_data = find_in_db(conn, calc_hash(source_img))
         if db_data:
             print("[%s] >>> url: %s" % (os.path.split(source_img)[1], db_data[1]))
             url = db_data[1]
             md_content = md_content.replace(image[0], image[0].replace(image[1], str(url)))
 
-        elif os.path.exists(source_img) and os.path.isfile(source_img):
+        elif os.path.isfile(source_img):
             compressed_img = os.path.join(os.path.split(source_img)[0], 'cp_' + os.path.split(source_img)[1])
             compress(source_img, compressed_img)
             url = upload(compressed_img)
