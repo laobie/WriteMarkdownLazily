@@ -2,6 +2,8 @@
 
 This is a Python script which using for changing references of local image source files in Markdown file to urls.
 
+[中文版点我](http://laobie.github.io/python/2016/04/24/replace-image-file-in-markdown.html)
+
 ![](http://ac-QYgvX1CC.clouddn.com/04d2ff5eadd5717d.jpg)
 
 ### Usage
