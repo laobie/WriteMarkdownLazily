@@ -32,6 +32,7 @@ This is a Python script which using for changing references of local image sourc
 	LEAN_CLOUD_API_KEY = "your_lean_cloud_api_key"
 	~~~
 	[get TinyPNG api key](https://tinypng.com/developers)
+	
 	[get LeanCloud api key & id](https://leancloud.cn/)
 	
 	
