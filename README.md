@@ -1,6 +1,6 @@
 # WriteMarkdownLazily
 
-This is a Python script which using for changing references of local image source files in Markdown file to urls.
+This is a Python script which using for replacing local image with url and adding title for empty title link.
 
 [中文版点我](http://laobie.github.io/python/2016/04/24/replace-image-file-in-markdown.html)
 
@@ -26,7 +26,7 @@ This is a Python script which using for changing references of local image sourc
 	~~~
 	see [LeanCloud Python Doc](https://leancloud.cn/docs/python_guide.html#兼容性)
 
-3. Input your api key in `replace_image_in_md.py`:
+3. Input your api key in `lzmd.py`:
 	
 	~~~Python
 	TINY_API_KEY = "your_tiny_png_api_key"
@@ -38,20 +38,29 @@ This is a Python script which using for changing references of local image sourc
 	[get LeanCloud api key & id](https://leancloud.cn/)
 	
 	
-4. Write your Markdown file and reference local image files:
+4. Write your Markdown file and reference local image files or empty title link:
 	
 	~~~
 	this is a image 
 	![](img/monkey.jpg)
+	
+	[](http://www.baidu.com)
 	~~~
 
 5. Use script:
 	
 	~~~
-	python replace_image_in_md.py your.md output.md
+	python lzmd.py your.md output.md
 	~~~
 	
-	then all local image files references will be replaced with urls of compressed image files.
+	then all local image files references will be replaced with urls of compressed image files, and add title for empty title link.
+	
+	~~~
+	this is a image 
+	![](http://ac-QYgvX1CC.clouddn.com/f7597bfa8d7d5689.jpg)
+	
+	[百度一下，你就知道](http://www.baidu.com)
+	~~~
 
 	
 ### Credits
