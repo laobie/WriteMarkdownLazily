@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import hashlib
+import os
 from os import path
 import re
 import sqlite3
@@ -11,11 +12,11 @@ import leancloud
 from leancloud import File
 
 # TinyPng API key (link: https://tinypng.com/developers)
-TINY_API_KEY = "tiny_api_key"
+TINY_API_KEY = "your_tiny_png_api_key"
 
 # LeanCloud API id & key (link: https://leancloud.cn/docs/python_guide.html)
-LEAN_CLOUD_API_ID = "leancloud_api_id"
-LEAN_CLOUD_API_KEY = "leancloud_api_key"
+LEAN_CLOUD_API_ID = "your_lean_cloud_app_id"
+LEAN_CLOUD_API_KEY = "your_lean_cloud_api_key"
 
 # Match image in Markdown pattern
 INSERT_IMAGE_PATTERN = re.compile('(!\[.*?\]\((?!http)(.*?)\))', re.DOTALL)
@@ -36,7 +37,7 @@ def get_file_size(file_path):
 
 # Compress image by TinyPng (https://tinypng.com)
 def compress(source, target):
-    print "compressing image %s, save to %s" % (source, target)
+    # print "compressing image %s, save to %s" % (source, target)
     data = tinify.from_file(source)
     data.to_file(target)
     scale = get_file_size(target) / get_file_size(source)
@@ -45,7 +46,6 @@ def compress(source, target):
 
 # Upload image to LeanCloud
 def upload(file_path):
-    print 'uploading file %s' % file_path
     img_name = path.split(file_path)[1]
     img_file = open(file_path)
     up_file = File(img_name, img_file)
@@ -63,7 +63,6 @@ def calc_hash(file_path):
 
 
 def connect_db(path):
-    print 'connect to database %s' % path
     conn = sqlite3.connect(path)
     conn.execute('''
        CREATE TABLE IF NOT EXISTS ImageInfo(
@@ -89,26 +88,24 @@ class Handler:
         self.__content = ''
 
     def read_from(self, source):
-        print 'reading %s ...' % source
         with open(source) as md:
             self.__content = md.read()
         return self
 
     def write_to(self, target):
-        print 'writing into %s ...' % target
         with open(target, 'w') as md:
             md.write(self.__content)
 
-    def replace_image(self):
+    def replace_image(self, db_path):
         images = INSERT_IMAGE_PATTERN.findall(self.__content)
         if not images:
-            print 'found no image reference in source file ~'
+            print 'found no image reference in source file'
             return self
 
         images = map(lambda i: i[1], images)
-        print 'found %d image reference in source file ~' % len(images)
+        print 'found %d image reference in source file' % len(images)
 
-        with connect_db("ImageInfo.db") as db:
+        with connect_db(db_path) as db:
             for image in images:
                 if not path.exists(image):
                     print "can not find image %s :(" % image
@@ -128,18 +125,18 @@ class Handler:
                     image_url = upload(compressed_img).encode('utf-8')
                     write_db(db, img_hash, image_url)
                     print '[%s] => %s , size ⬇ %.2f%%' % (image, image_url, size_percent)
-
                 self.__content = self.__content.replace('(%s)' % image, '(%s)' % str(image_url))
+        print
 
         return self
 
     def replace_url(self):
         urls = INSERT_URL_PATTERN.findall(self.__content)
         if not urls:
-            print 'found no url reference in source file ~'
+            print 'found no url reference in source file'
             return self
 
-        print 'found %d url reference in source file ~' % len(urls)
+        print 'found %d url reference in source file' % len(urls)
         for url in urls:
             try:
                 # download html & extract title
@@ -150,11 +147,12 @@ class Handler:
                 print '[%s] => %s' % (url, title)
             except:
                 print '[%s] replace failed :(' % url
+        print
 
         return self
 
 
-def main(source, target):
+def main(script, source, target):
     if not path.exists(source):
         print "source file doesn't exist :("
         return
@@ -163,16 +161,16 @@ def main(source, target):
 
     Handler() \
         .read_from(source) \
-        .replace_image() \
+        .replace_image(os.path.join(os.path.split(script)[0], "ImageInfo.db")) \
         .replace_url() \
         .write_to(target)
 
-    print 'all done ~'
+    print 'all done'
 
 
 if __name__ == '__main__':
     if len(argv) > 2:
-        script, source_file, target_file = argv
-        main(source_file, target_file)
+        script_file, source_file, target_file = argv
+        main(script_file, source_file, target_file)
     else:
         print 'please enter source file and target file'
