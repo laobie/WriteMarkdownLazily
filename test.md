@@ -6,7 +6,7 @@
 
 插入另一张图
 
-![测试啦](http://img/tree.png)
+![测试啦](img/tree.png)
 
 测试url
 

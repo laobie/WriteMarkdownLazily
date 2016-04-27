@@ -2,11 +2,11 @@
 
 这是一只猴子
 
-![](http://ac-nQ2aBBOs.clouddn.com/9770185d750868e9.jpg)
+![](http://ac-nQ2aBBOs.clouddn.com/e130e520f6c098a4.jpg)
 
 插入另一张图
 
-![测试啦](http://img/tree.png)
+![测试啦](http://ac-nQ2aBBOs.clouddn.com/53a725628f82d705.png)
 
 测试url
 
