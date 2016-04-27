@@ -112,7 +112,7 @@ class Handler:
                     continue
 
                 img_hash = calc_hash(image)
-                # find local first
+                # find database first
                 image_data = find_in_db(db, img_hash)
                 if image_data:
                     image_url = image_data[1]
