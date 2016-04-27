@@ -2,8 +2,14 @@
 
 这是一只猴子
 
-![](http://ac-QYgvX1CC.clouddn.com/a2ec3a2a375f8c61.jpg)
+![](http://ac-nQ2aBBOs.clouddn.com/e130e520f6c098a4.jpg)
 
 插入另一张图
 
-![](http://ac-QYgvX1CC.clouddn.com/33fd939ae2821a35.png)
+![测试啦](http://ac-nQ2aBBOs.clouddn.com/53a725628f82d705.png)
+
+测试url
+
+[百度一下，你就知道](http://www.baidu.com)
+
+我的博客:[Brucezz's Corner](https://brucezz.github.io)
